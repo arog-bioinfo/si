@@ -197,6 +197,72 @@ class Dataset:
         X = np.random.rand(n_samples, n_features)
         y = np.random.randint(0, n_classes, n_samples)
         return cls(X, y, features=features, label=label)
+    
+    #===========
+    #Made By me
+    #===========
+
+    def dropna(self) -> 'Dataset':
+        """
+        Remove all samples (rows) from the dataset where any feature (column) is NaN.
+
+        This method modifies the dataset in-place by removing rows with missing values
+        in `self.X` and the corresponding labels in `self.y`.
+
+        Returns:
+            Self: The instance with NaN-containing rows removed, allowing for method chaining.
+        """
+        # Create a mask for NaN values
+        nan_mask = ~np.isnan(self.X).any(axis=1)
+
+        #Remove samples with NaN values
+        self.X = self.X[nan_mask]
+        self.y = self.y[nan_mask]
+
+        return self
+    
+    def fillna(self, value : float | str) -> 'Dataset':
+        """
+            Fill missing values (NaN) in the dataset with the specified value.
+
+            Args:
+                value (float or str): The value to fill NaN with. If "mean", fills with the mean of each feature.
+                                    If "median", fills with the median of each feature. Otherwise, fills with the given float.
+
+            Returns:
+                Dataset: The instance with NaN values filled, allowing for method chaining.
+            """
+        if isinstance(value, str):
+            if value == "mean":
+                fill_values = np.nanmean(self.X, axis=0)
+            elif value == "median":
+                fill_values = np.nanmedian(self.X, axis=0)
+            else:
+                raise ValueError("Invalid string value. Use 'mean' or 'median'.")
+        else:
+            fill_values = value
+
+        # Create a mask for NaN values
+        nan_mask = np.isnan(self.X)
+
+        # Fill NaN values with fill_values
+        self.X[nan_mask] = np.take(fill_values, np.where(nan_mask)[1])
+
+        return self
+    
+    def remove_by_index(self, index: int) -> 'Dataset':
+        """
+        Remove a sample (row) from the dataset at the specified index.
+
+        Args:
+            index (int): The index of the row to remove.
+
+        Returns:
+            Dataset: The instance with the specified row removed, allowing for method chaining.
+        """
+        self.X = np.delete(self.X, index, axis=0)
+        self.y = np.delete(self.y, index, axis=0)
+        return self
 
 
 if __name__ == '__main__':
