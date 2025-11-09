@@ -199,7 +199,7 @@ class Dataset:
         return cls(X, y, features=features, label=label)
     
     #===========
-    #Made By me
+    #Made By AROG
     #===========
 
     def dropna(self) -> 'Dataset':
@@ -221,17 +221,20 @@ class Dataset:
 
         return self
     
-    def fillna(self, value : float | str) -> 'Dataset':
+    def fillna(self, value: float | str) -> 'Dataset':
         """
-            Fill missing values (NaN) in the dataset with the specified value.
+        Fill missing values (NaN) in the dataset with the specified value.
 
-            Args:
-                value (float or str): The value to fill NaN with. If "mean", fills with the mean of each feature.
-                                    If "median", fills with the median of each feature. Otherwise, fills with the given float.
+        Args:
+            value (float or str): The value to fill NaN with. If "mean", fills with the mean of each feature.
+                                If "median", fills with the median of each feature. Otherwise, fills with the given float.
 
-            Returns:
-                Dataset: The instance with NaN values filled, allowing for method chaining.
-            """
+        Returns:
+            Dataset: The instance with NaN values filled, allowing for method chaining.
+        """
+        # Create a mask for NaN values
+        nan_mask = np.isnan(self.X)
+
         if isinstance(value, str):
             if value == "mean":
                 fill_values = np.nanmean(self.X, axis=0)
@@ -239,16 +242,13 @@ class Dataset:
                 fill_values = np.nanmedian(self.X, axis=0)
             else:
                 raise ValueError("Invalid string value. Use 'mean' or 'median'.")
+
+            # For each column, fill NaN values with the column's mean/median
+            self.X[nan_mask] = np.take(fill_values, np.where(nan_mask)[1])
         else:
-            fill_values = value
+            # For a scalar value, fill all NaN positions
+            self.X[nan_mask] = float(value)
 
-        # Create a mask for NaN values
-        nan_mask = np.isnan(self.X)
-
-        # Fill NaN values with fill_values
-        self.X[nan_mask] = np.take(fill_values, np.where(nan_mask)[1])
-
-        return self
     
     def remove_by_index(self, index: int) -> 'Dataset':
         """
