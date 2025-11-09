@@ -48,7 +48,7 @@ class TestDataset(unittest.TestCase):
         self.assertEqual(len(dataset.X), 2)
         self.assertEqual(len(dataset.y), 2)
 
-        # Use np.array_equal or np.testing.assert_array_equal for array comparison
+        # np.testing.assert_array_equal for array comparison
         np.testing.assert_array_equal(dataset.X, dataset_expected.X)
         np.testing.assert_array_equal(dataset.y, dataset_expected.y)
     
@@ -65,7 +65,7 @@ class TestDataset(unittest.TestCase):
         # Check that no NaN values remain
         self.assertFalse(np.isnan(dataset.X).any())
 
-        # Optionally, check the filled values
+        # np.testing.assert_array_equal for array comparison
         np.testing.assert_array_equal(dataset.X, dataset_expected.X)
         np.testing.assert_array_equal(dataset.y, dataset_expected.y)
 
@@ -81,8 +81,7 @@ class TestDataset(unittest.TestCase):
         # Check that no NaN values remain
         self.assertFalse(np.isnan(dataset.X).any())
 
-        print(dataset.X)
-        # Check the filled values
+        # np.testing.assert_array_equal for array comparison
         np.testing.assert_array_almost_equal(dataset.X, dataset_expected.X, decimal=6)
         np.testing.assert_array_equal(dataset.y, dataset_expected.y)
 
@@ -103,7 +102,7 @@ class TestDataset(unittest.TestCase):
         # Check that no NaN values remain
         self.assertFalse(np.isnan(dataset.X).any())
 
-        # Check the filled values
+        # np.testing.assert_array_equal for array comparison
         np.testing.assert_array_equal(dataset.X, dataset_expected.X)
         np.testing.assert_array_equal(dataset.y, dataset_expected.y)
     
@@ -117,6 +116,8 @@ class TestDataset(unittest.TestCase):
         # Check that the sample at index 1 is removed
         self.assertEqual(len(dataset.X), 3)
         self.assertEqual(len(dataset.y), 3)
+
+        # np.testing.assert_array_equal for array comparison
         np.testing.assert_array_equal(dataset.X, np.array([[1, 2], [5, 6], [7, 8]]))
         np.testing.assert_array_equal(dataset.y, np.array([0, 0, 1]))
 
