@@ -7,16 +7,14 @@ from si.statistics.f_classification import f_classification
 class SelectPercentile(Transformer):
     """
     Select features based on a percentile of the highest scores.
-    Feature ranking is performed by computing the scores of each feature using a scoring function:
-        - f_classification: ANOVA F-value between label/feature for classification tasks.
-        - f_regression: F-value obtained from F-value of Pearson correlation coefficients for regression tasks.
+    Feature ranking is performed by computing the scores of each feature using a scoring function.
 
     Parameters
     ----------
     score_func: callable, default=f_classification
         Function taking a dataset and returning a pair of arrays (scores, p_values).
     percentile: int, default=10
-        Percentile of features to select (e.g., 10 selects the top 10% of features).
+        Percentile of features to select (e.g., selects the top __% of features).
 
     Attributes
     ----------

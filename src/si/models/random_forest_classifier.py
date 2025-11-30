@@ -72,7 +72,7 @@ class RandomForestClassifier(Model):
             # Select random features
             feature_idx = np.random.choice(n_features, self.max_features, replace=False)
             X_bootstrap = X_sample[:, feature_idx]
-            bootstrap_dataset = type(dataset)(X=X_bootstrap, y=y_sample)
+            bootstrap_dataset = Dataset(X=X_bootstrap, y=y_sample)
 
             # Train and store tree
             tree = DecisionTreeClassifier(
@@ -103,7 +103,7 @@ class RandomForestClassifier(Model):
         tree_predictions = []
         for feature_idx, tree in self.trees:
             X_subset = dataset.X[:, feature_idx]
-            subset_dataset = type(dataset)(X=X_subset, y=None)
+            subset_dataset = Dataset(X=X_subset, y=None)
             tree_predictions.append(tree.predict(subset_dataset))
 
         # Majority vote

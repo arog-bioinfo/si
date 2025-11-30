@@ -40,7 +40,7 @@ class PCA(Transformer):
         X_centered = X - self.mean
 
         # 2. Compute the covariance matrix and perform eigenvalue decomposition
-        covariance_matrix = np.cov(X_centered, rowvar=False)  # rowvar=False: columns are features
+        covariance_matrix = np.cov(X_centered, rowvar=False)  # rowvar=False: columns are the features
         eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
 
         # 3. Sort eigenvalues and eigenvectors in descending order

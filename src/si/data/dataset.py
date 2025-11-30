@@ -198,22 +198,22 @@ class Dataset:
         y = np.random.randint(0, n_classes, n_samples)
         return cls(X, y, features=features, label=label)
     
-    #===========
-    #Made By AROG
-    #===========
+    #==============
+    # Made By AROG
+    #==============
 
     def dropna(self) -> 'Dataset':
         """
-        Remove all samples (rows) from the dataset where any feature (column) is NaN.
+        Remove all samples (rows) from the dataset where any feature (column) value is NaN.
 
         This method modifies the dataset in-place by removing rows with missing values
         in `self.X` and the corresponding labels in `self.y`.
 
         Returns:
-            Self: The instance with NaN-containing rows removed, allowing for method chaining.
+            Self: The instance with NaN-containing rows removed.
         """
-        # Create a mask for NaN values
-        nan_mask = ~np.isnan(self.X).any(axis=1)
+        # Create a mask relative to NaN values (True if has no NaN values)
+        nan_mask = ~np.isnan(self.X).any(axis=1) 
 
         #Remove samples with NaN values
         self.X = self.X[nan_mask]
@@ -230,7 +230,7 @@ class Dataset:
                                 If "median", fills with the median of each feature. Otherwise, fills with the given float.
 
         Returns:
-            Dataset: The instance with NaN values filled, allowing for method chaining.
+            Self: The instance with NaN values filled.
         """
         # Create a mask for NaN values
         nan_mask = np.isnan(self.X)
@@ -244,7 +244,7 @@ class Dataset:
                 raise ValueError("Invalid string value. Use 'mean' or 'median'.")
 
             # For each column, fill NaN values with the column's mean/median
-            self.X[nan_mask] = np.take(fill_values, np.where(nan_mask)[1])
+            self.X[nan_mask] = fill_values[np.where(nan_mask)[1]]
         else:
             # For a scalar value, fill all NaN positions
             self.X[nan_mask] = float(value)
@@ -258,7 +258,7 @@ class Dataset:
             index (int): The index of the row to remove.
 
         Returns:
-            Dataset: The instance with the specified row removed, allowing for method chaining.
+            Self: The instance with the specified row removed.
         """
         self.X = np.delete(self.X, index, axis=0)
         self.y = np.delete(self.y, index, axis=0)

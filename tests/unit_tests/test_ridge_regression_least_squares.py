@@ -25,12 +25,11 @@ class TestRidgeRegressionLeastSquares(TestCase):
         # Check that theta_zero is not None
         self.assertIsNotNone(ridge.theta_zero)
 
-        # Check that mean and std are computed if scale=True
-        if ridge.scale:
-            self.assertIsNotNone(ridge.mean)
-            self.assertIsNotNone(ridge.std)
-            self.assertEqual(len(ridge.mean), self.train_dataset.X.shape[1])
-            self.assertEqual(len(ridge.std), self.train_dataset.X.shape[1])
+        # Scalling
+        self.assertIsNotNone(ridge.mean)
+        self.assertIsNotNone(ridge.std)
+        self.assertEqual(len(ridge.mean), self.train_dataset.X.shape[1])
+        self.assertEqual(len(ridge.std), self.train_dataset.X.shape[1])
 
     def test_predict(self):
         """Test that the model makes predictions of the correct shape."""

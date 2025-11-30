@@ -1,4 +1,5 @@
 import numpy as np
+from src.si.metrics.mse import mse
 
 def rmse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     """
@@ -16,5 +17,9 @@ def rmse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     rmse: float
         The root mean squared error of the model.
     """
-    mse = np.sum((y_true - y_pred) ** 2) / len(y_true)
-    return np.sqrt(mse)
+    
+    mse_value = mse(y_true, y_pred)
+
+    rmse = np.sqrt(mse_value)
+
+    return rmse

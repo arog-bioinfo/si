@@ -39,7 +39,7 @@ class TestKNNRegressor(TestCase):
         # Split the dataset
         train_dataset, test_dataset = train_test_split(self.dataset, test_size=0.2, random_state=42)
 
-        # Fit and predict with your KNNRegressor
+        # Fit and predict with implemented KNNRegressor
         knn = KNNRegressor(k=3)
         knn.fit(train_dataset)
         predictions = knn.predict(test_dataset)
@@ -51,9 +51,5 @@ class TestKNNRegressor(TestCase):
         sklearn_predictions = sklearn_knn.predict(test_dataset.X)
         sklearn_rmse = np.sqrt(mean_squared_error(test_dataset.y, sklearn_predictions))
 
-        # Compare predictions
-        # np.testing.assert_allclose(predictions, sklearn_predictions, rtol=1e-6)
-
         # Compare RMSE scores
         self.assertGreaterEqual(rmse, sklearn_rmse)
-
