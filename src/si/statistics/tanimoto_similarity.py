@@ -1,5 +1,6 @@
 import numpy as np
 
+#Ex.4
 def tanimoto_similarity(x: np.ndarray, y: np.ndarray) -> np.ndarray:
     """
     It computes the Tanimoto similarity of a point (x) to a set of points y.

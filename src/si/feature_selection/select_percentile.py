@@ -4,6 +4,7 @@ from si.base.transformer import Transformer
 from si.data.dataset import Dataset
 from si.statistics.f_classification import f_classification
 
+#Ex.3
 class SelectPercentile(Transformer):
     """
     Select features based on a percentile of the highest scores.
@@ -73,7 +74,7 @@ class SelectPercentile(Transformer):
         threshold = np.percentile(self.F, 100 - self.percentile)
 
         # Create a mask for features with F-values >= threshold
-        mask = self.F >= threshold
+        mask = self.F > threshold
 
         # Handle ties: include enough features to meet the percentile
         n_features = dataset.X.shape[1]
@@ -82,7 +83,7 @@ class SelectPercentile(Transformer):
             # Include tied features at the threshold
             tied_indices = np.where(self.F == threshold)[0]
             n_additional = n_selected - mask.sum()
-            mask[tied_indices[:n_additional]] = True
+            mask[tied_indices[:n_additional - 1]] = True
 
         # Select features
         idxs = np.where(mask)[0]
@@ -94,3 +95,4 @@ class SelectPercentile(Transformer):
             features=list(features),
             label=dataset.label
         )
+

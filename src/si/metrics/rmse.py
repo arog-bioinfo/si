@@ -1,6 +1,7 @@
 import numpy as np
 from src.si.metrics.mse import mse
 
+#Ex.7
 def rmse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     """
     It returns the root mean squared error for the y_pred variable.

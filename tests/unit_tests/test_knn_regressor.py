@@ -8,6 +8,7 @@ from si.model_selection.split import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_squared_error
 
+#Ex.7
 class TestKNNRegressor(TestCase):
     def setUp(self):
         self.csv_file = os.path.join(DATASETS_PATH, 'cpu', 'cpu.csv')

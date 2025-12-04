@@ -9,6 +9,7 @@ from sklearn.linear_model import Ridge
 from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import StandardScaler
 
+#Ex.8
 class TestRidgeRegressionLeastSquares(TestCase):
     def setUp(self):
         self.csv_file = os.path.join(DATASETS_PATH, 'cpu', 'cpu.csv')

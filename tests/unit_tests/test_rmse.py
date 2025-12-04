@@ -2,6 +2,7 @@ from unittest import TestCase
 import numpy as np
 from si.metrics.rmse import rmse
 
+#Ex.7
 class TestRMSE(TestCase):
     def test_rmse_perfect_prediction(self):
         y_true = np.array([1, 2, 3, 4])

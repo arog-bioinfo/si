@@ -29,7 +29,9 @@ class TestDataset(unittest.TestCase):
         dataset = Dataset.from_random(10, 5, 3, features=['a', 'b', 'c', 'd', 'e'], label='y')
         self.assertEqual((10, 5), dataset.shape())
         self.assertTrue(dataset.has_label())
-    
+
+    #Ex.2
+
     def test_dataset_dropna(self):
         X = np.array([[1, 2], [3, np.nan], [4, 5], [np.nan, 6]])
         y = np.array([0, 1, 0, 1])

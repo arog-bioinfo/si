@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.metrics import jaccard_score
 from si.statistics.tanimoto_similarity import tanimoto_similarity
 
+#Ex.4
 class TestTanimotoSimilarity(TestCase):
     def setUp(self):
         """Set up test fixtures with random binary data."""

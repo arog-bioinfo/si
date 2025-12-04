@@ -6,6 +6,7 @@ from si.model_selection.split import train_test_split
 from si.models.random_forest_classifier import RandomForestClassifier
 from si.models.decision_tree_classifier import DecisionTreeClassifier
 
+#Ex.9
 class TestRandomForestClassifier(TestCase):
     def setUp(self):
         """Set up test fixtures."""

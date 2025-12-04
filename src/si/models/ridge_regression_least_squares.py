@@ -3,6 +3,7 @@ from si.base.model import Model
 from si.data.dataset import Dataset
 from si.metrics.mse import mse
 
+#Ex.8
 class RidgeRegressionLeastSquares(Model):
     """
     Ridge Regression using the least squares (closed-form) solution.

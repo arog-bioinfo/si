@@ -7,6 +7,7 @@ from si.decomposition.pca import PCA
 from sklearn.decomposition import PCA as SklearnPCA
 from sklearn.preprocessing import StandardScaler
 
+#Ex.5
 class TestPCA(TestCase):
     def setUp(self):
         """Set up test fixtures."""

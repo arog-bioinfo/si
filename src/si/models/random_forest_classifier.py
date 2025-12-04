@@ -4,6 +4,7 @@ from si.data.dataset import Dataset
 from si.models.decision_tree_classifier import DecisionTreeClassifier
 from si.metrics.accuracy import accuracy
 
+#Ex.9
 class RandomForestClassifier(Model):
     """
     Random Forest Classifier that fits multiple decision trees on bootstrapped samples.
@@ -60,8 +61,6 @@ class RandomForestClassifier(Model):
         n_samples, n_features = dataset.X.shape
         if self.max_features is None:
             self.max_features = int(np.sqrt(n_features))
-
-        self.classes_ = np.unique(dataset.y)
 
         for _ in range(self.n_estimators):
             # Create bootstrap sample

@@ -1,3 +1,4 @@
+import numpy as np
 from unittest import TestCase
 from datasets import DATASETS_PATH
 import os
@@ -5,6 +6,7 @@ from si.feature_selection.select_percentile import SelectPercentile
 from si.io.csv_file import read_csv
 from si.statistics.f_classification import f_classification
 
+#Ex.3
 class TestSelectPercentile(TestCase):
     def setUp(self):
         self.csv_file = os.path.join(DATASETS_PATH, 'iris', 'iris.csv')

@@ -5,6 +5,7 @@ import numpy as np
 from si.io.csv_file import read_csv
 from si.model_selection.split import stratified_train_test_split 
 
+#Ex.6
 class TestStratifiedSplits(TestCase):
     def setUp(self):
         self.csv_file = os.path.join(DATASETS_PATH, 'iris', 'iris.csv')
