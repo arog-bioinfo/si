@@ -217,7 +217,9 @@ class Dataset:
 
         #Remove samples with NaN values
         self.X = self.X[nan_mask]
-        self.y = self.y[nan_mask]
+
+        if self.y is not None:
+            self.y = self.y[nan_mask]
 
         return self
     
