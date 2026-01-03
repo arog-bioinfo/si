@@ -4,7 +4,7 @@ from si.io.data_file import read_data_file
 from si.model_selection.split import train_test_split
 from si.models.decision_tree_classifier import DecisionTreeClassifier
 from datasets import DATASETS_PATH
-from si.neural_networks.losses import BinaryCrossEntropy, MeanSquaredError
+from si.neural_networks.losses import BinaryCrossEntropy, MeanSquaredError, CategoricalCrossEntropy
 
 
 class TestLosses(TestCase):
@@ -35,8 +35,21 @@ class TestLosses(TestCase):
 
         self.assertAlmostEqual(error, 0)
 
-    def test_mean_squared_error_derivative(self):
+    def test_binary_cross_entropy_derivative(self):
 
         derivative_error = BinaryCrossEntropy().derivative(self.dataset.y, self.dataset.y)
+
+        self.assertEqual(derivative_error.shape[0], self.dataset.shape()[0])
+    
+    #Ex.14
+    def test_categorical_cross_entropy_loss(self):
+
+        error = CategoricalCrossEntropy().loss(self.dataset.y, self.dataset.y)
+
+        self.assertAlmostEqual(error, 0)
+
+    def test_categorical_cross_entropy_derivative(self):
+        
+        derivative_error = CategoricalCrossEntropy().derivative(self.dataset.y, self.dataset.y)
 
         self.assertEqual(derivative_error.shape[0], self.dataset.shape()[0])
