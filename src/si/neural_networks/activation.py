@@ -177,3 +177,90 @@ class ReLUActivation(ActivationLayer):
             The derivative of the activation function.
         """
         return np.where(input >= 0, 1, 0)
+
+#Ex.13.1
+class TanhActivation(ActivationLayer):
+    """
+    Hyperbolic tangent (tanh) activation function.
+    """
+
+    def activation_function(self, input: np.ndarray) -> np.ndarray:
+        """
+        Tanh activation function.
+
+        Parameters
+        ----------
+        input: numpy.ndarray
+            The input to the layer.
+
+        Returns
+        -------
+        numpy.ndarray
+            The output of the layer.
+        """
+        return np.tanh(input) #tanh(x) = (e^x - e^-x) / (e^x + e^-x)
+
+    def derivative(self, input: np.ndarray) -> np.ndarray:
+        """
+        Derivative of the tanh activation function.
+
+        Parameters
+        ----------
+        input: numpy.ndarray
+            The input to the layer.
+
+        Returns
+        -------
+        numpy.ndarray
+            The derivative of the activation function.
+        """
+        return 1 - np.tanh(input)**2 #tanh'(x) = 1 - tanh(x)^2
+
+#Ex.13.2
+class SoftmaxActivation(ActivationLayer):
+    """
+    Softmax activation function.
+    """
+
+    def activation_function(self, input: np.ndarray) -> np.ndarray:
+        """
+        Stable softmax activation function.
+
+        Parameters
+        ----------
+        input: numpy.ndarray
+            The input to the layer.
+
+        Returns
+        -------
+        numpy.ndarray
+            The output of the layer.
+        """
+        # Subtract max for numerical stability
+        shifted_input = input - np.max(input, axis=-1, keepdims=True)
+        exp = np.exp(shifted_input)
+        return exp / np.sum(exp, axis=-1, keepdims=True)
+
+    def derivative(self, input: np.ndarray) -> np.ndarray:
+        """
+        Derivative of the softmax activation function.
+        Note: This is the Jacobian matrix of the softmax function.
+
+        Parameters
+        ----------
+        input: numpy.ndarray
+            The input to the layer.
+
+        Returns
+        -------
+        numpy.ndarray
+            The derivative of the activation function.
+        """
+        # Compute softmax values
+        s = self.activation_function(input)
+        # The derivative of softmax is a Jacobian matrix
+        # For a vector x, the Jacobian J is:
+        # J[i,j] = s[i]*(1-s[i]) if i == j
+        # J[i,j] = -s[i]*s[j] if i != j
+        # We can compute this efficiently using outer products
+        return s * (1 - s)
