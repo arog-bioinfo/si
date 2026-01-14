@@ -1,4 +1,5 @@
 import numpy as np
+from itertools import product
 from typing import Callable, Dict, Any, List
 
 from si.data.dataset import Dataset
@@ -35,43 +36,41 @@ def randomized_search_cv(model,
         The results of the randomized search cross validation. Includes the scores, hyperparameters,
         best hyperparameters and best score.
     """
-    # Validate the parameter grid
-    for parameter in hyperparameter_grid:
-        if not hasattr(model, parameter):
-            raise AttributeError(f"Model {model} does not have parameter {parameter}.")
+    # 1) Validate grid
+    for param in hyperparameter_grid:
+        if not hasattr(model, param):
+            raise AttributeError(f"Model {model} does not have parameter {param}.")
 
     results = {'scores': [], 'hyperparameters': []}
 
-    # Generate all possible combinations
     param_names = list(hyperparameter_grid.keys())
     param_values = list(hyperparameter_grid.values())
 
-    # Perform n_iter random searches
-    for _ in range(n_iter):
-        # Generate a random combination
-        combination = []
-        for values in param_values:
-            combination.append(np.random.choice(values))
+    # All possible combinations (Cartesian product)
+    all_combinations = list(product(*param_values))
+    n_possible = len(all_combinations)
 
-        # Parameter configuration
+    # Sample n_iter combinations (without replacement)
+    if n_iter >= n_possible:
+        sampled_idx = np.arange(n_possible)
+        np.random.shuffle(sampled_idx)
+    else:
+        sampled_idx = np.random.choice(n_possible, size=n_iter, replace=False)
+
+    # Iterate sampled combos
+    for idx in sampled_idx:
+        combo = all_combinations[idx]
+
         parameters = {}
+        for param, value in zip(param_names, combo):
+            setattr(model, param, value)
+            parameters[param] = value
 
-        # Set the parameters
-        for parameter, value in zip(param_names, combination):
-            setattr(model, parameter, value)
-            parameters[parameter] = value
-
-        # Cross validate the model
-        score = k_fold_cross_validation(model=model, dataset=dataset, scoring=scoring, cv=cv)
-
-        # Add the mean score
-        results['scores'].append(np.mean(score))
-
-        # Add the hyperparameters
+        scores = k_fold_cross_validation(model=model, dataset=dataset, scoring=scoring, cv=cv)
+        results['scores'].append(float(np.mean(scores)))
         results['hyperparameters'].append(parameters)
 
-    # Find the best score and hyperparameters
-    best_idx = np.argmax(results['scores'])
+    best_idx = int(np.argmax(results['scores']))
     results['best_hyperparameters'] = results['hyperparameters'][best_idx]
     results['best_score'] = results['scores'][best_idx]
 

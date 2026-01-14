@@ -3,7 +3,7 @@ from unittest import TestCase
 from datasets import DATASETS_PATH
 
 import os
-
+import numpy as np
 from si.ensemble.stacking_classifier import StackingClassifier
 from si.io.data_file import read_data_file
 from si.model_selection.split import train_test_split
@@ -24,14 +24,27 @@ class TestStackingClassifier(TestCase):
     def test_fit(self):
 
         decision_tree = DecisionTreeClassifier()
-        knn = KNNClassifier()
+        knn = KNNClassifier(k=2)
         logistic_regression = LogisticRegression()
-        knn_f = KNNClassifier()
+        knn_f = KNNClassifier(k=2)
 
         vc=StackingClassifier(models = [decision_tree, knn, logistic_regression], final_model= knn_f)
 
+        vc.fit(self.train_dataset)
+        
         self.assertEqual(vc.models[0].min_sample_split, 2)
         self.assertEqual(vc.models[0].max_depth, 10)
+
+
+        self.assertTrue(np.all(self.train_dataset.features == vc.models[1].dataset.features))
+        self.assertTrue(np.all(self.train_dataset.y == vc.models[1].dataset.y))
+
+
+        self.assertEqual(vc.models[2].theta.shape[0], self.train_dataset.shape()[1])
+        self.assertNotEqual(vc.models[2].theta_zero, None)
+        self.assertNotEqual(len(vc.models[2].cost_history), 0)
+        self.assertNotEqual(len(vc.models[2].mean), 0)
+        self.assertNotEqual(len(vc.models[2].std), 0)
 
 
     def test_predict(self):
@@ -58,5 +71,5 @@ class TestStackingClassifier(TestCase):
         vc.fit(self.train_dataset)
         accuracy_ = vc.score(self.test_dataset)
         
-        # print(accuracy_)
+        print(accuracy_)
         self.assertEqual(round(accuracy_, 2), 0.95)

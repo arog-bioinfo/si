@@ -210,7 +210,11 @@ class Dropout(Layer):
             The input error of the layer.
         """
         # Multiply the output error by the mask
+        if self.mask is None:
+            return output_error
+        
         return output_error * self.mask
+
 
     def output_shape(self) -> tuple:
         """

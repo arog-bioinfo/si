@@ -7,7 +7,7 @@ from si.metrics.accuracy import accuracy
 from si.model_selection.randomized_search import randomized_search_cv
 from si.models.logistic_regression import LogisticRegression
 
-
+#Ex.11
 class TestRandomizedSearchCV(TestCase):
     def setUp(self):
         self.csv_file = os.path.join(DATASETS_PATH, 'breast_bin', 'breast-bin.csv')

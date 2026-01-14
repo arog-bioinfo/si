@@ -258,9 +258,5 @@ class SoftmaxActivation(ActivationLayer):
         """
         # Compute softmax values
         s = self.activation_function(input)
-        # The derivative of softmax is a Jacobian matrix
-        # For a vector x, the Jacobian J is:
-        # J[i,j] = s[i]*(1-s[i]) if i == j
-        # J[i,j] = -s[i]*s[j] if i != j
-        # We can compute this efficiently using outer products
+
         return s * (1 - s)

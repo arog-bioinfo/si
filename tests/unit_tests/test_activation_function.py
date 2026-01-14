@@ -75,7 +75,7 @@ class TestTanhLayer(TestCase):
 
 
     def test_derivative(self):
-        tahn_layer = ReLUActivation()
+        tahn_layer = TanhActivation()
         derivative = tahn_layer.derivative(self.dataset.X)
         self.assertEqual(derivative.shape[0], self.dataset.X.shape[0])
         self.assertEqual(derivative.shape[1], self.dataset.X.shape[1])
@@ -94,13 +94,13 @@ class TestSoftmaxLayer(TestCase):
 
     def test_activation_function(self):
 
-        softmax_layer = ReLUActivation()
+        softmax_layer = SoftmaxActivation()
         result = softmax_layer.activation_function(self.dataset.X)
         self.assertTrue(all([i >= 0 for j in range(result.shape[1]) for i in result[:, j]]))
 
 
     def test_derivative(self):
-        softmax_layer = ReLUActivation()
+        softmax_layer = SoftmaxActivation()
         derivative = softmax_layer.derivative(self.dataset.X)
         self.assertEqual(derivative.shape[0], self.dataset.X.shape[0])
         self.assertEqual(derivative.shape[1], self.dataset.X.shape[1])
